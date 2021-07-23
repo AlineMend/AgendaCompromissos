@@ -18,18 +18,40 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// Buscar os compromissos da agenda.
+        /// </summary>
+        /// <param name="GetAllCompromissosAsync">Retorna todos os compromissos</param>
+        /// <response code="200">Retorna os compromissos</response>
+        /// <response code="400">Caso não haja nenhum compromisso</response>
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var result = await _repo.GetAllCompromissosAsync();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Buscar um compromisso pelo seu Id
         /// </summary>
         /// <param name="CompromissosId">Id do compromisso buscado</param>
         /// <response code="200">Retorna o compromisso  filtrado</response>
-        /// <response code="204">Caso não haja compromisso  com este id</response> 
+        /// <response code="400">Caso não haja compromisso  com este id</response> 
 
         [HttpGet("{CompromissosId}")]
         public async Task<IActionResult> GetByCompromissosId(int CompromissosId)
         {
             try
             {
-                var result = await _repo.GetCompromissosAsyncById(CompromissosId, true);
+                var result = await _repo.GetCompromissosAsyncById(CompromissosId);
                 
                 return Ok(result);
             }
@@ -55,7 +77,7 @@ namespace API.Controllers
         /// </remarks>
         /// <param name="model">Dados do compromisso a ser inserido</param>
         /// <response code="200">Caso o compromisso seja inserido com sucesso</response>
-        /// <response code="422">Caso já exista um compromisso com a mesma tarefa para a mesma data</response>
+        /// <response code="400">Caso já exista um compromisso com a mesma tarefa para a mesma data</response>
 
         [HttpPost]
         public async Task<IActionResult> post(Compromissos model)
@@ -83,14 +105,14 @@ namespace API.Controllers
         /// /// <param name="compromissosId">Id do compromisso  a ser atualizado</param>
         /// <param name="model">Novos dados para atualizar o compromisso indicado</param>
         /// <response code="200">Cao o compromisso seja atualizado com sucesso</response>
-        /// <response code="404">Caso não exista um compromisso com este Id</response>   
+        /// <response code="400">Caso não exista um compromisso com este Id</response>   
 
         [HttpPut("{compromissosId}")]
         public async Task<IActionResult> put(int compromissosId, Compromissos model)
         {
             try
             {
-                var compromissos = await _repo.GetCompromissosAsyncById(compromissosId, false);
+                var compromissos = await _repo.GetCompromissosAsyncById(compromissosId);
                 if(compromissos == null) return NotFound();
 
                 _repo.Update(model);
@@ -113,14 +135,14 @@ namespace API.Controllers
         /// </summary>
         /// /// <param name="compromissosId">Id do compromisso a ser excluído</param>
         /// <response code="200">Cao o compromisso seja excluido com sucesso</response>
-        /// <response code="404">Caso não exista um compromisso com este Id</response>  
+        /// <response code="400">Caso não exista um compromisso com este Id</response>  
 
         [HttpDelete("{compromissosId}")]
         public async Task<IActionResult> delete(int compromissosId)
         {
             try
             {
-                var compromissos = await _repo.GetCompromissosAsyncById(compromissosId, false);
+                var compromissos = await _repo.GetCompromissosAsyncById(compromissosId);
                 if(compromissos == null) return NotFound();
 
                 _repo.Delete(compromissos);

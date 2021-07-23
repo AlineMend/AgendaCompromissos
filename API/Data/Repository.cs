@@ -34,20 +34,23 @@ namespace API.Data
              return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public async Task<Compromissos> GetCompromissosAsyncById(int compromissosId, bool includeTarefa)
+        public async Task<Compromissos> GetCompromissosAsyncById(int compromissosId)
         {
              IQueryable<Compromissos> query = _context.Compromissos;
-
-            if (includeTarefa)
-            {
-                query = query.Include(a => a.Tarefa);
-            }
-
             query = query.AsNoTracking()
                          .OrderBy(compromissos => compromissos.Id)
                          .Where(compromissos => compromissos.Id == compromissosId);
 
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<Compromissos[]> GetAllCompromissosAsync()
+        {
+            IQueryable<Compromissos> query = _context.Compromissos;
+            query = query.AsNoTracking()
+                         .OrderBy(c => c.Id);
+
+            return await query.ToArrayAsync();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace API.Data
         void Delete<T> (T entity) where T : class; 
         Task<bool> SaveChangesAsync();
 
-         Task<Compromissos> GetCompromissosAsyncById(int compromissosId, bool includeTarefa);
+        Task<Compromissos[]> GetAllCompromissosAsync();
+        Task<Compromissos> GetCompromissosAsyncById(int compromissosId);
     }
 }
