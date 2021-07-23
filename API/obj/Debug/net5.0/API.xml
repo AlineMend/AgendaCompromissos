@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="M:API.Controllers.CompromissosController.GetByCompromissosId(System.Int32)">
+            <summary>
+            Buscar um compromisso pelo seu Id
+            </summary>
+            <param name="CompromissosId">Id do compromisso buscado</param>
+            <response code="200">Retorna o compromisso  filtrado</response>
+            <response code="204">Caso não haja compromisso  com este id</response> 
+        </member>
+        <member name="M:API.Controllers.CompromissosController.post(API.Models.Compromissos)">
+             <summary>
+             Inserir um compromisso na agenda
+             </summary>
+             <remarks>
+             Exemplo:
+            
+                 POST /Modelo
+                 {
+                    "tarefa": "Reunião",
+                    "local": "Escritorio",
+                    "dia": "02/08/2021",
+                    "hora": "08:30"
+                 }
+             </remarks>
+             <param name="model">Dados do compromisso a ser inserido</param>
+             <response code="200">Caso o compromisso seja inserido com sucesso</response>
+             <response code="422">Caso já exista um compromisso com a mesma tarefa para a mesma data</response>
+        </member>
+        <member name="M:API.Controllers.CompromissosController.put(System.Int32,API.Models.Compromissos)">
+            <summary>
+            Atualizar um compromisso na agenda
+            </summary>
+            /// <param name="compromissosId">Id do compromisso  a ser atualizado</param>
+            <param name="model">Novos dados para atualizar o compromisso indicado</param>
+            <response code="200">Cao o compromisso seja atualizado com sucesso</response>
+            <response code="404">Caso não exista um compromisso com este Id</response>   
+        </member>
+        <member name="M:API.Controllers.CompromissosController.delete(System.Int32)">
+            <summary>
+            Excluir um compromisso da agenda
+            </summary>
+            /// <param name="compromissosId">Id do compromisso a ser excluído</param>
+            <response code="200">Cao o compromisso seja excluido com sucesso</response>
+            <response code="404">Caso não exista um compromisso com este Id</response>  
+        </member>
+    </members>
+</doc>
